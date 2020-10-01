@@ -6,7 +6,9 @@ namespace App\Showroom\Application\ClientManagement;
 
 use App\Showroom\Application\Exception\ClientNotFoundException;
 use App\Showroom\Application\Exception\UnfinishedTradeInDealFoundException;
+use App\Showroom\Model\Client\Client;
 use App\Showroom\Model\Client\ClientRepositoryInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ClientManagementService
 {
@@ -15,6 +17,14 @@ class ClientManagementService
     public function __construct(ClientRepositoryInterface $clientRepository)
     {
         $this->clientRepository = $clientRepository;
+    }
+
+    public function addClient(UserInterface $user)
+    {
+        $client = new Client();
+        $client->setUserAccount($user);
+
+        $this->clientRepository->store($client);
     }
 
     public function removeClient(int $clientId)
@@ -27,7 +37,8 @@ class ClientManagementService
 
         // Check for unfinished trade in deals
         $clientLastTradeInDeal = $client->getTradeInDeals()->last();
-        if (! $clientLastTradeInDeal->getShowroomCarModel()) {
+
+        if ($clientLastTradeInDeal && ! $clientLastTradeInDeal->getShowroomCarModel()) {
             throw new UnfinishedTradeInDealFoundException();
         }
         

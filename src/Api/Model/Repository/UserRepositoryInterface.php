@@ -17,6 +17,18 @@ interface UserRepositoryInterface extends PasswordUpgraderInterface
 {
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param UserInterface $user
+     * @param string $newEncodedPassword
      */
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void;
+
+    /**
+     * Removes User from DB by his Id
+     *
+     * @param int $id
+     */
+    public function removeById(int $id);
+
+    public function remove(UserInterface $user);
 }

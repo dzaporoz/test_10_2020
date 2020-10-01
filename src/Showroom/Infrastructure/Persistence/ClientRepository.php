@@ -19,5 +19,12 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
     public function remove(Client $client)
     {
         $this->getEntityManager()->remove($client);
+        $this->getEntityManager()->flush();
+    }
+
+    public function store(Client $client)
+    {
+        $this->getEntityManager()->persist($client);
+        $this->getEntityManager()->flush();
     }
 }

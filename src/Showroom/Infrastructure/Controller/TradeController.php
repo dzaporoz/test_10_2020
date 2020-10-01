@@ -64,6 +64,29 @@ class TradeController extends ApiController
 
         $client = $this->clientRepository->findOneBy(['userAccount' => $this->security->getUser()]);
 
-        $this->tradeService->sellCarToShowroom($carModelId, $client->getId());
+        $tradeInDeal = $this->tradeService->sellCarToShowroom($carModelId, $client->getId());
+
+        return $this->response(['tradeInDeal' => $tradeInDeal]);
+    }
+
+    public function sellCarForTradeIn(Request $request)
+    {
+        $request = $this->transformJsonBody($request);
+        $surchargeAmount = $request->get('surchargeAmount');
+        $carModelId = $request->get('carModelId');
+
+        if (! $carModelId || ! $surchargeAmount) {
+            $this->setStatusCode(400);
+            return $this->response(
+                [],
+                'Invalid body format. Should have "surcharge_amount" AND "carModelId" parameters'
+            );
+        }
+
+        $client = $this->clientRepository->findOneBy(['userAccount' => $this->security->getUser()]);
+
+        $tradeInDeal = $this->tradeService->buyCarWithASurcharge($surchargeAmount, $carModelId, $client->getId());
+
+        return $this->response(['tradeInDeal' => $tradeInDeal]);
     }
 }

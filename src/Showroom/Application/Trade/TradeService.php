@@ -46,7 +46,7 @@ class TradeService
         return $this->carModelRepository->getBrandModels($brand);
     }
 
-    public function sellCarToShowroom(int $carModelId, int $clientId)
+    public function sellCarToShowroom(int $carModelId, int $clientId) : TradeInDeal
     {
         $carModel = $this->carModelRepository->find($carModelId);
         $client = $this->clientRepository->find($clientId);
@@ -72,10 +72,10 @@ class TradeService
 
         $this->tradeInDealRepository->store($tradeInDeal);
         
-        return $tradeInDeal->getId();
+        return $tradeInDeal;
     }
 
-    public function buyCarWithASurcharge(float $surcharge_amount, int $desirableCarModelId, int $clientId)
+    public function buyCarWithASurcharge(float $surcharge_amount, int $desirableCarModelId, int $clientId) : TradeInDeal
     {
         $client = $this->clientRepository->find($clientId);
         $desirableCarModel = $this->carModelRepository->find($desirableCarModelId);
@@ -94,11 +94,15 @@ class TradeService
 
         if ($requiredSurchargeAmount != $surcharge_amount) {
             throw new WrongSurchargeAmountException();
+        } else if (! preg_match('~^[\d]+(.[\d])?([\d])?$~', $surcharge_amount)) {
+            throw new WrongSurchargeFormatException();
         }
 
         $tradeInDeal->setShowroomCarModel($desirableCarModel);
         $tradeInDeal->setShowroomCarPrice($desirableCarModel->getPrice()->getPrice());
         $this->tradeInDealRepository->store($tradeInDeal);
+
+        return $tradeInDeal;
     }
 
     protected function getClientUnfinishedTradeInDeal(Client $client)

@@ -4,7 +4,11 @@
 namespace App\Showroom\Application\Exception;
 
 
-class UnfinishedTradeInDealFoundException extends \Exception
-{
+use App\Resources\Exception\AppException;
 
+class UnfinishedTradeInDealFoundException extends AppException
+{
+    protected int $status_code = 403;
+
+    protected $message = 'This operation is unavailable since the Client has unfinished trade in deal';
 }

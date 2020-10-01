@@ -11,16 +11,33 @@ get_authentication_token:
   methods: [ 'POST' ]
 
 list_car_manufacturer_brands:
-  path: client_section/cars/brands/
+  path: client_area/cars/brands/
   controller: App\Showroom\Infrastructure\Controller\TradeController::getCarBrands
-  methods: GET
+  methods: [ 'GET' ]
 
 list_car_models_per_brand:
-  path: client_section/cars/{brand}
+  path: client_area/cars/{brand}
   controller: App\Showroom\Infrastructure\Controller\TradeController::getBrandModels
-  methods: GET
+  methods: [ 'GET' ]
 
 sell_car_for_trade_in:
-  path: client_section/sell_car
+  path: client_area/sell_car
   controller: App\Showroom\Infrastructure\Controller\TradeController::tradeInClientCar
-  methods: POST
+  methods: [ 'POST' ]
+
+buy_car_with_surcharge:
+  path: client_area/buy_car_with_surcharge
+  controller: App\Showroom\Infrastructure\Controller\TradeController::sellCarForTradeIn
+  methods: [ 'POST' ]
+
+list_clients:
+  path: manager_area/clients
+  controller: App\Showroom\Infrastructure\Controller\ClientManagementController::list
+  methods: [ 'GET' ]
+
+delete_client:
+  path: manager_area/clients/{client_id}
+  controller: App\Showroom\Infrastructure\Controller\ClientManagementController::delete
+  methods: [ 'DELETE' ]
+  requirements:
+    client_id: \d+

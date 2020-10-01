@@ -36,6 +36,22 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->_em->flush();
     }
 
+    public function removeById(int $id)
+    {
+        $query = $this->createQueryBuilder('du')
+            ->delete('du')
+            ->where('du.id = :id')
+            ->setParameter("id", $id)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function remove(UserInterface $user)
+    {
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

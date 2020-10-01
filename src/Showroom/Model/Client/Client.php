@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
  */
-class Client
+class Client implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -27,7 +27,7 @@ class Client
     private $userAccount;
 
     /**
-     * @ORM\OneToMany(targetEntity=TradeInDeal::class, mappedBy="client2", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=TradeInDeal::class, mappedBy="client", orphanRemoval=true)
      */
     private $tradeInDeals;
 
@@ -82,5 +82,13 @@ class Client
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'trade_in_deals' => $this->getTradeInDeals()->toArray(),
+        ];
     }
 }

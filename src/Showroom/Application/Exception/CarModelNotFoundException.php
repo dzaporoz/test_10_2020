@@ -4,7 +4,11 @@
 namespace App\Showroom\Application\Exception;
 
 
-class CarModelNotFoundException extends \Exception
-{
+use App\Resources\Exception\AppException;
 
+class CarModelNotFoundException extends AppException
+{
+    protected int $status_code = 404;
+
+    protected $message = 'Unable to find car model by given Id';
 }

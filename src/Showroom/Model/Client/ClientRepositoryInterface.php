@@ -54,4 +54,13 @@ interface ClientRepositoryInterface
      * @return void
      */
     public function remove(Client $client);
+
+    /**
+     * Stores a new object to repository or applying changes to existing object
+     *
+     * @param Client $client New object.
+     *
+     * @return void
+     */
+    public function store(Client $client);
 }

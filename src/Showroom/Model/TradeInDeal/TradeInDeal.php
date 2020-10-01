@@ -10,7 +10,7 @@ use App\Showroom\Model\Client\Client;
 /**
  * @ORM\Entity(repositoryClass=TradeInDealRepository::class)
  */
-class TradeInDeal
+class TradeInDeal implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -31,12 +31,12 @@ class TradeInDeal
     private $showroomCarModel;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal")
      */
     private $clientCarPrice;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", nullable=true)
      */
     private $showroomCarPrice;
 
@@ -75,24 +75,24 @@ class TradeInDeal
         return $this;
     }
 
-    public function getClientCarPrice(): int
+    public function getClientCarPrice(): float
     {
         return $this->clientCarPrice;
     }
 
-    public function setClientCarPrice(int $clientCarPrice): self
+    public function setClientCarPrice(float $clientCarPrice): self
     {
         $this->clientCarPrice = $clientCarPrice;
 
         return $this;
     }
 
-    public function getShowroomCarPrice(): int
+    public function getShowroomCarPrice(): ?float
     {
         return $this->showroomCarPrice;
     }
 
-    public function setShowroomCarPrice(int $showroomCarPrice): self
+    public function setShowroomCarPrice(float $showroomCarPrice): self
     {
         $this->showroomCarPrice = $showroomCarPrice;
 
@@ -109,5 +109,16 @@ class TradeInDeal
         $this->client = $client;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'trade_in_car_model' => $this->getClientCarModel(),
+            'trade_in_car_price' => $this->getClientCarPrice(),
+            'bought_car_model' => $this->getShowroomCarModel(),
+            'bought_car_price' => $this->getShowroomCarPrice(),
+        ];
     }
 }
