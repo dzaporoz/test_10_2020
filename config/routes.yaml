@@ -4,12 +4,23 @@
 register:
   path: /register
   controller: App\Api\Infrastructure\Controller\AuthController::register
-  methods: POST
-  defaults:
-    _format: json
+  methods: [ 'POST' ]
 
-authentication_token:
+get_authentication_token:
   path: /authentication_token
   methods: [ 'POST' ]
-  defaults:
-    _format: json
+
+list_car_manufacturer_brands:
+  path: client_section/cars/brands/
+  controller: App\Showroom\Infrastructure\Controller\TradeController::getCarBrands
+  methods: GET
+
+list_car_models_per_brand:
+  path: client_section/cars/{brand}
+  controller: App\Showroom\Infrastructure\Controller\TradeController::getBrandModels
+  methods: GET
+
+sell_car_for_trade_in:
+  path: client_section/sell_car
+  controller: App\Showroom\Infrastructure\Controller\TradeController::tradeInClientCar
+  methods: POST

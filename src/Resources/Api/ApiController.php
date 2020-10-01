@@ -1,12 +1,10 @@
 <?php
 
 
-namespace App\Api\Infrastructure\Controller;
+namespace App\Resources\Api;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class ApiController extends AbstractController
 {
@@ -42,50 +40,47 @@ class ApiController extends AbstractController
     /**
      * Returns a JSON response
      *
-     * @param array $data
+     * @param mixed $data
+     * @param string $message
      * @param array $headers
      *
      * @return JsonResponse
      */
-    public function response($data, $headers = [])
+    public function response($data, $message = '', $headers = [])
     {
-        return new JsonResponse($data, $this->getStatusCode(), $headers);
+        return new ApiResponse($data, $this->getStatusCode(), $message, $headers);
     }
 
     /**
      * Sets an error message and returns a JSON response
      *
-     * @param string $errors
+     * @param string $error
      * @param $headers
      * @return JsonResponse
      */
-    public function respondWithErrors($errors, $headers = [])
+    public function respondWithError($error, $headers = [])
     {
-        $data = [
-            'status' => $this->getStatusCode(),
-            'errors' => $errors,
-        ];
-
-        return new JsonResponse($data, $this->getStatusCode(), $headers);
+        return new ApiResponse(null, $this->getStatusCode(), $error, $headers);
     }
 
-
-    /**
-     * Sets an error message and returns a JSON response
-     *
-     * @param string $success
-     * @param $headers
-     * @return JsonResponse
-     */
-    public function respondWithSuccess($success, $headers = [])
-    {
-        $data = [
-            'status' => $this->getStatusCode(),
-            'success' => $success,
-        ];
-
-        return new JsonResponse($data, $this->getStatusCode(), $headers);
-    }
+    //
+//
+//    /**
+//     * Sets an error message and returns a JSON response
+//     *
+//     * @param string $success
+//     * @param $headers
+//     * @return JsonResponse
+//     */
+//    public function respondWithSuccess($success, $headers = [])
+//    {
+//        $data = [
+//            'status' => $this->getStatusCode(),
+//            'success' => $success,
+//        ];
+//
+//        return new JsonResponse($data, $this->getStatusCode(), $headers);
+//    }
 
 
     /**
@@ -97,7 +92,7 @@ class ApiController extends AbstractController
      */
     public function respondUnauthorized($message = 'Not authorized!')
     {
-        return $this->setStatusCode(401)->respondWithErrors($message);
+        return $this->setStatusCode(401)->respondWithError($message);
     }
 
     /**
@@ -109,7 +104,7 @@ class ApiController extends AbstractController
      */
     public function respondValidationError($message = 'Validation errors')
     {
-        return $this->setStatusCode(422)->respondWithErrors($message);
+        return $this->setStatusCode(422)->respondWithError($message);
     }
 
     /**
@@ -121,7 +116,7 @@ class ApiController extends AbstractController
      */
     public function respondNotFound($message = 'Not found!')
     {
-        return $this->setStatusCode(404)->respondWithErrors($message);
+        return $this->setStatusCode(404)->respondWithError($message);
     }
 
     /**

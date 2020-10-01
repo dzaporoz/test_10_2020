@@ -4,14 +4,9 @@
 namespace App\Api\Infrastructure\Controller;
 
 use App\Api\Model\Entity\User;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Resources\Api\ApiController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthController extends ApiController
 {
@@ -30,19 +25,10 @@ class AuthController extends ApiController
         $user = new User();
         $user->setUsername($username);
         $user->setPassword($encoder->encodePassword($user, $password));
-        $user->setRole($role);
+        $user->setRoles(array($role == 'client' ? 'ROLE_CLIENT' : 'ROLE_MANAGER'));
         $em->persist($user);
         $em->flush();
-        return $this->respondWithSuccess(sprintf('User %s successfully created', $user->getUsername()));
+        $this->setStatusCode(201);
+        return $this->response(null, sprintf('User %s successfully created', $user->getUsername()));
     }
-
-//    /**
-//     * @param UserInterface $user
-//     * @param JWTTokenManagerInterface $JWTManager
-//     * @return JsonResponse
-//     */
-//    public function getTokenUser(UserInterface $user, JWTTokenManagerInterface $JWTManager)
-//    {
-//        return new JsonResponse(['token' => $JWTManager->create($user)]);
-//    }
 }

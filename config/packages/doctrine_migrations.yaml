@@ -3,3 +3,4 @@ doctrine_migrations:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
         'ApiDoctrineMigrations': '%kernel.project_dir%/src/Api/Infrastructure/Migrations'
+        'ShowroomDoctrineMigrations': '%kernel.project_dir%/src/Showroom/Infrastructure/Migrations'
