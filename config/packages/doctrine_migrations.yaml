@@ -1,0 +1,5 @@
+doctrine_migrations:
+    migrations_paths:
+        # namespace is arbitrary but should be different from App\Migrations
+        # as migrations classes should NOT be autoloaded
+        'ApiDoctrineMigrations': '%kernel.project_dir%/src/Api/Infrastructure/Migrations'

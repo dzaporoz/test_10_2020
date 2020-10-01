@@ -1,3 +1,15 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+register:
+  path: /register
+  controller: App\Api\Infrastructure\Controller\AuthController::register
+  methods: POST
+  defaults:
+    _format: json
+
+authentication_token:
+  path: /authentication_token
+  methods: [ 'POST' ]
+  defaults:
+    _format: json
