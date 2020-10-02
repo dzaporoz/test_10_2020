@@ -8,7 +8,7 @@ use App\Showroom\Model\CarModel\CarModel;
 use App\Showroom\Model\Customer\Customer;
 
 /**
- * @ORM\Entity(repositoryClass=TradeInDealRepository::class)
+ * @ORM\Entity(repositoryClass=App\Showroom\Infrastructure\Persistence\TradeInDealRepository::class)
  */
 class TradeInDeal implements \JsonSerializable
 {
@@ -60,6 +60,8 @@ class TradeInDeal implements \JsonSerializable
     {
         $this->customerCarModel = $customerCarModel;
 
+        $this->setCustomerCarPrice($customerCarModel->getPrice()->getTradeInPrice());
+
         return $this;
     }
 
@@ -71,6 +73,8 @@ class TradeInDeal implements \JsonSerializable
     public function setShowroomCarModel(?CarModel $showroomCarModel): self
     {
         $this->showroomCarModel = $showroomCarModel;
+
+        $this->setShowroomCarPrice($showroomCarModel->getPrice()->getPrice());
 
         return $this;
     }

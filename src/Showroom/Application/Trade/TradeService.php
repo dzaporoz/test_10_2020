@@ -11,6 +11,7 @@ use App\Showroom\Application\Exception\TradeInDealNotFoundException;
 use App\Showroom\Application\Exception\UnfinishedTradeInDealFoundException;
 use App\Showroom\Application\Exception\UnfinishedTradeInDealNotFoundException;
 use App\Showroom\Application\Exception\WrongSurchargeAmountException;
+use App\Showroom\Application\Exception\WrongSurchargeFormatException;
 use App\Showroom\Model\CarModel\CarModelRepositoryInterface;
 use App\Showroom\Model\Customer\Customer;
 use App\Showroom\Model\Customer\CustomerRepositoryInterface;
@@ -68,7 +69,6 @@ class TradeService
         $tradeInDeal = new TradeInDeal();
         $tradeInDeal->setCustomer($customer);
         $tradeInDeal->setCustomerCarModel($carModel);
-        $tradeInDeal->setCustomerCarPrice($carModel->getPrice()->getTradeInPrice());
 
         $this->tradeInDealRepository->store($tradeInDeal);
         
@@ -99,7 +99,6 @@ class TradeService
         }
 
         $tradeInDeal->setShowroomCarModel($desirableCarModel);
-        $tradeInDeal->setShowroomCarPrice($desirableCarModel->getPrice()->getPrice());
         $this->tradeInDealRepository->store($tradeInDeal);
 
         return $tradeInDeal;

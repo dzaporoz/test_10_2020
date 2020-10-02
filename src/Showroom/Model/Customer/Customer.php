@@ -9,7 +9,7 @@ use App\Showroom\Model\TradeInDeal\TradeInDeal;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @ORM\Entity(repositoryClass=App\Showroom\Infrastructure\Persistence\CustomerRepository::class)
  */
 class Customer implements \JsonSerializable
 {

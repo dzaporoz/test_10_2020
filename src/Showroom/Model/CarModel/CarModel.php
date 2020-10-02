@@ -5,7 +5,7 @@ namespace App\Showroom\Model\CarModel;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CarModelRepository::class)
+ * @ORM\Entity(repositoryClass=App\Showroom\Infrastructure\Persistence\CarModelRepository::class)
  */
 class CarModel implements \JsonSerializable
 {
