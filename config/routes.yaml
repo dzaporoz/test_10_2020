@@ -11,7 +11,7 @@ get_authentication_token:
   methods: [ 'POST' ]
 
 list_car_manufacturer_brands:
-  path: customer_area/cars/brands/
+  path: customer_area/cars/brands
   controller: App\Showroom\Infrastructure\Controller\TradeController::getCarBrands
   methods: [ 'GET' ]
 
