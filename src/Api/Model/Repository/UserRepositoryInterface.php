@@ -3,7 +3,6 @@
 namespace App\Api\Model\Repository;
 
 use App\Api\Model\Entity\User;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
@@ -15,7 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 interface UserRepositoryInterface
 {
-
     /**
      * Removes User from DB
      *

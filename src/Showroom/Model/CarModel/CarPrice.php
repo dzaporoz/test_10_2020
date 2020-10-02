@@ -2,11 +2,10 @@
 
 namespace App\Showroom\Model\CarModel;
 
-use App\Repository\CarPriceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CarPriceRepository::class)
+ * @ORM\Entity()
  */
 class CarPrice
 {

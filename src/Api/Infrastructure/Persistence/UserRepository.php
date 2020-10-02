@@ -6,7 +6,6 @@ use App\Api\Model\Entity\User;
 use App\Api\Model\Repository\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -23,19 +22,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     }
 
     /**
-     * @see UserRepositoryInterface
-     */
-    public function removeById(int $id)
-    {
-        $query = $this->createQueryBuilder('du')
-            ->delete('du')
-            ->where('du.id = :id')
-            ->setParameter("id", $id)
-            ->getQuery()
-            ->execute();
-    }
-
-    /**
+     * @param UserInterface $user
+     *
      * @see UserRepositoryInterface
      */
     public function remove(UserInterface $user)

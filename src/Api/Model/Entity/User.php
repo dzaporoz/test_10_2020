@@ -63,6 +63,8 @@ class User implements UserInterface
     }
 
     /**
+     * @param array $roles
+     * @return User
      * @see UserInterface
      */
     public function setRoles(array $roles): self

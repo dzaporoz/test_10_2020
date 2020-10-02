@@ -2,7 +2,6 @@
 
 namespace App\Showroom\Model\TradeInDeal;
 
-use App\Repository\TradeInDealRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Showroom\Model\CarModel\CarModel;
 use App\Showroom\Model\Customer\Customer;
