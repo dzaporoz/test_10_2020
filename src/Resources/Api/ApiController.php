@@ -63,26 +63,6 @@ class ApiController extends AbstractController
         return new ApiResponse(null, $this->getStatusCode(), $error, $headers);
     }
 
-    //
-//
-//    /**
-//     * Sets an error message and returns a JSON response
-//     *
-//     * @param string $success
-//     * @param $headers
-//     * @return JsonResponse
-//     */
-//    public function respondWithSuccess($success, $headers = [])
-//    {
-//        $data = [
-//            'status' => $this->getStatusCode(),
-//            'success' => $success,
-//        ];
-//
-//        return new JsonResponse($data, $this->getStatusCode(), $headers);
-//    }
-
-
     /**
      * Returns a 401 Unauthorized http response
      *
