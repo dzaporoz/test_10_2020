@@ -10,5 +10,5 @@ class UnfinishedTradeInDealFoundException extends AppException
 {
     protected int $status_code = 403;
 
-    protected $message = 'This operation is unavailable since the Client has unfinished trade in deal';
+    protected $message = 'This operation is unavailable since the Customer has unfinished trade in deal';
 }

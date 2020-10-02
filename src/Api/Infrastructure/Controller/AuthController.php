@@ -20,14 +20,14 @@ class AuthController extends ApiController
         $password = $request->get('password');
         $role = $request->get('role');
 
-        if (empty($username) || empty($password) || empty($role) || ! in_array($role, ['client', 'manager'])){
-            return $this->respondValidationError("Invalid Username or Password or Role (should be 'client' or 'manager')");
+        if (empty($username) || empty($password) || empty($role) || ! in_array($role, ['customer', 'manager'])){
+            return $this->respondValidationError("Invalid Username or Password or Role (should be 'customer' or 'manager')");
         }
 
         $user = new User();
         $user->setUsername($username);
         $user->setPassword($encoder->encodePassword($user, $password));
-        $user->setRoles(array($role == 'client' ? 'ROLE_CLIENT' : 'ROLE_MANAGER'));
+        $user->setRoles(array($role == 'customer' ? 'ROLE_CUSTOMER' : 'ROLE_MANAGER'));
         $em->persist($user);
         $em->flush();
 
@@ -40,7 +40,7 @@ class AuthController extends ApiController
 
     protected function dispatchCustomerUserAccountCreationEvent(User $user, EventDispatcherInterface $eventDispatcher)
     {
-        if (! in_array('ROLE_CLIENT', $user->getRoles())) {
+        if (! in_array('ROLE_CUSTOMER', $user->getRoles())) {
             return;
         }
 

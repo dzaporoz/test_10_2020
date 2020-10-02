@@ -5,7 +5,7 @@ namespace App\Showroom\Model\TradeInDeal;
 use App\Repository\TradeInDealRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Showroom\Model\CarModel\CarModel;
-use App\Showroom\Model\Client\Client;
+use App\Showroom\Model\Customer\Customer;
 
 /**
  * @ORM\Entity(repositoryClass=TradeInDealRepository::class)
@@ -23,7 +23,7 @@ class TradeInDeal implements \JsonSerializable
      * @ORM\ManyToOne(targetEntity=CarModel::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $clientCarModel;
+    private $customerCarModel;
 
     /**
      * @ORM\ManyToOne(targetEntity=CarModel::class)
@@ -33,7 +33,7 @@ class TradeInDeal implements \JsonSerializable
     /**
      * @ORM\Column(type="decimal")
      */
-    private $clientCarPrice;
+    private $customerCarPrice;
 
     /**
      * @ORM\Column(type="decimal", nullable=true)
@@ -41,24 +41,24 @@ class TradeInDeal implements \JsonSerializable
     private $showroomCarPrice;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="tradeInDeals")
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="tradeInDeals")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $client;
+    private $customer;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClientCarModel(): ?CarModel
+    public function getCustomerCarModel(): ?CarModel
     {
-        return $this->clientCarModel;
+        return $this->customerCarModel;
     }
 
-    public function setClientCarModel(?CarModel $clientCarModel): self
+    public function setCustomerCarModel(?CarModel $customerCarModel): self
     {
-        $this->clientCarModel = $clientCarModel;
+        $this->customerCarModel = $customerCarModel;
 
         return $this;
     }
@@ -75,14 +75,14 @@ class TradeInDeal implements \JsonSerializable
         return $this;
     }
 
-    public function getClientCarPrice(): float
+    public function getCustomerCarPrice(): float
     {
-        return $this->clientCarPrice;
+        return $this->customerCarPrice;
     }
 
-    public function setClientCarPrice(float $clientCarPrice): self
+    public function setCustomerCarPrice(float $customerCarPrice): self
     {
-        $this->clientCarPrice = $clientCarPrice;
+        $this->customerCarPrice = $customerCarPrice;
 
         return $this;
     }
@@ -99,14 +99,14 @@ class TradeInDeal implements \JsonSerializable
         return $this;
     }
 
-    public function getClient(): ?Client
+    public function getCustomer(): ?Customer
     {
-        return $this->client;
+        return $this->customer;
     }
 
-    public function setClient(?Client $client): self
+    public function setCustomer(?Customer $customer): self
     {
-        $this->client = $client;
+        $this->customer = $customer;
 
         return $this;
     }
@@ -115,8 +115,8 @@ class TradeInDeal implements \JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'trade_in_car_model' => $this->getClientCarModel(),
-            'trade_in_car_price' => $this->getClientCarPrice(),
+            'trade_in_car_model' => $this->getCustomerCarModel(),
+            'trade_in_car_price' => $this->getCustomerCarPrice(),
             'bought_car_model' => $this->getShowroomCarModel(),
             'bought_car_price' => $this->getShowroomCarPrice(),
         ];

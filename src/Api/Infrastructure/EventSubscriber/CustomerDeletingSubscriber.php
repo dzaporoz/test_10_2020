@@ -4,11 +4,8 @@
 namespace App\Api\Infrastructure\EventSubscriber;
 
 
-use App\Api\Infrastructure\Event\CustomerUserAccountCreatedEvent;
 use App\Api\Infrastructure\Persistence\UserRepository;
-use App\Showroom\Application\ClientManagement\ClientManagementService;
 use App\Showroom\Infrastructure\Event\CustomerRemovedEvent;
-use App\Showroom\Infrastructure\Persistence\ClientRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CustomerDeletingSubscriber implements EventSubscriberInterface
@@ -29,6 +26,6 @@ class CustomerDeletingSubscriber implements EventSubscriberInterface
 
     public function removeUser(CustomerRemovedEvent $customerRemovedEvent)
     {
-        $this->userRepository->remove($customerRemovedEvent->getClient()->getUserAccount());
+        $this->userRepository->remove($customerRemovedEvent->getCustomer()->getUserAccount());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Showroom\Model\Client;
+namespace App\Showroom\Model\Customer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,9 +9,9 @@ use App\Showroom\Model\TradeInDeal\TradeInDeal;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
-class Client implements \JsonSerializable
+class Customer implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -27,7 +27,7 @@ class Client implements \JsonSerializable
     private $userAccount;
 
     /**
-     * @ORM\OneToMany(targetEntity=TradeInDeal::class, mappedBy="client", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=TradeInDeal::class, mappedBy="customer", orphanRemoval=true)
      */
     private $tradeInDeals;
 
@@ -65,7 +65,7 @@ class Client implements \JsonSerializable
     {
         if (!$this->tradeInDeals->contains($tradeInDeal)) {
             $this->tradeInDeals[] = $tradeInDeal;
-            $tradeInDeal->setClient($this);
+            $tradeInDeal->setCustomer($this);
         }
 
         return $this;
@@ -76,8 +76,8 @@ class Client implements \JsonSerializable
         if ($this->tradeInDeals->contains($tradeInDeal)) {
             $this->tradeInDeals->removeElement($tradeInDeal);
             // set the owning side to null (unless already changed)
-            if ($tradeInDeal->getClient() === $this) {
-                $tradeInDeal->setClient(null);
+            if ($tradeInDeal->getCustomer() === $this) {
+                $tradeInDeal->setCustomer(null);
             }
         }
 

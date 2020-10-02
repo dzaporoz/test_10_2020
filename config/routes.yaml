@@ -11,33 +11,33 @@ get_authentication_token:
   methods: [ 'POST' ]
 
 list_car_manufacturer_brands:
-  path: client_area/cars/brands/
+  path: customer_area/cars/brands/
   controller: App\Showroom\Infrastructure\Controller\TradeController::getCarBrands
   methods: [ 'GET' ]
 
 list_car_models_per_brand:
-  path: client_area/cars/{brand}
+  path: customer_area/cars/{brand}
   controller: App\Showroom\Infrastructure\Controller\TradeController::getBrandModels
   methods: [ 'GET' ]
 
 sell_car_for_trade_in:
-  path: client_area/sell_car
-  controller: App\Showroom\Infrastructure\Controller\TradeController::tradeInClientCar
+  path: customer_area/sell_car
+  controller: App\Showroom\Infrastructure\Controller\TradeController::tradeInCustomerCar
   methods: [ 'POST' ]
 
 buy_car_with_surcharge:
-  path: client_area/buy_car_with_surcharge
+  path: customer_area/buy_car_with_surcharge
   controller: App\Showroom\Infrastructure\Controller\TradeController::sellCarForTradeIn
   methods: [ 'POST' ]
 
-list_clients:
-  path: manager_area/clients
-  controller: App\Showroom\Infrastructure\Controller\ClientManagementController::list
+list_customers:
+  path: manager_area/customers
+  controller: App\Showroom\Infrastructure\Controller\CustomerManagementController::list
   methods: [ 'GET' ]
 
-delete_client:
-  path: manager_area/clients/{client_id}
-  controller: App\Showroom\Infrastructure\Controller\ClientManagementController::delete
+delete_customer:
+  path: manager_area/customers/{customer_id}
+  controller: App\Showroom\Infrastructure\Controller\CustomerManagementController::delete
   methods: [ 'DELETE' ]
   requirements:
-    client_id: \d+
+    customer_id: \d+

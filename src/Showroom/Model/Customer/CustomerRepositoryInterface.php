@@ -1,23 +1,23 @@
 <?php
 
 
-namespace App\Showroom\Model\Client;
+namespace App\Showroom\Model\Customer;
 
-interface ClientRepositoryInterface
+interface CustomerRepositoryInterface
 {
     /**
      * Finds an object by its primary key / identifier.
      *
      * @param mixed $id The identifier.
      *
-     * @return Client|null The object.
+     * @return Customer|null The object.
      */
     public function find($id);
 
     /**
      * Finds all objects in the repository.
      *
-     * @return array<int, Client> The objects.
+     * @return array<int, Customer> The objects.
      */
     public function findAll();
 
@@ -33,7 +33,7 @@ interface ClientRepositoryInterface
      * @param int|null      $limit
      * @param int|null      $offset
      *
-     * @return Client[] The objects.
+     * @return Customer[] The objects.
      */
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null);
 
@@ -42,25 +42,25 @@ interface ClientRepositoryInterface
      *
      * @param mixed[] $criteria The criteria.
      *
-     * @return Client|null The object.
+     * @return Customer|null The object.
      */
     public function findOneBy(array $criteria);
 
     /**
      * Removes object from repository
      *
-     * @param Client $client The object.
+     * @param Customer $customer The object.
      *
      * @return void
      */
-    public function remove(Client $client);
+    public function remove(Customer $customer);
 
     /**
      * Stores a new object to repository or applying changes to existing object
      *
-     * @param Client $client New object.
+     * @param Customer $customer New object.
      *
      * @return void
      */
-    public function store(Client $client);
+    public function store(Customer $customer);
 }

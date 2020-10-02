@@ -6,7 +6,7 @@ namespace App\Showroom\Infrastructure\Controller;
 use App\Resources\Api\ApiController;
 use App\Showroom\Application\Trade\TradeService;
 use App\Showroom\Infrastructure\Persistence\CarModelRepository;
-use App\Showroom\Infrastructure\Persistence\ClientRepository;
+use App\Showroom\Infrastructure\Persistence\CustomerRepository;
 use App\Showroom\Infrastructure\Persistence\TradeInDealRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -17,22 +17,22 @@ class TradeController extends ApiController
 
     private Security $security;
 
-    private ClientRepository $clientRepository;
+    private CustomerRepository $customerRepository;
 
     public function __construct(
         CarModelRepository $carModelRepository,
-        ClientRepository $clientRepository,
+        CustomerRepository $customerRepository,
         TradeInDealRepository $tradeInDealRepository,
         Security $security
     )
     {
         $this->tradeService = new TradeService(
-            $tradeInDealRepository, $carModelRepository, $clientRepository
+            $tradeInDealRepository, $carModelRepository, $customerRepository
         );
 
         $this->security = $security;
 
-        $this->clientRepository = $clientRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     public function getCarBrands()
@@ -49,7 +49,7 @@ class TradeController extends ApiController
         return $this->response([$brand => $models]);
     }
 
-    public function tradeInClientCar(Request $request)
+    public function tradeInCustomerCar(Request $request)
     {
         $request = $this->transformJsonBody($request);
         $carModelId = $request->get('carModelId');
@@ -62,9 +62,9 @@ class TradeController extends ApiController
             );
         }
 
-        $client = $this->clientRepository->findOneBy(['userAccount' => $this->security->getUser()]);
+        $customer = $this->customerRepository->findOneBy(['userAccount' => $this->security->getUser()]);
 
-        $tradeInDeal = $this->tradeService->sellCarToShowroom($carModelId, $client->getId());
+        $tradeInDeal = $this->tradeService->sellCarToShowroom($carModelId, $customer->getId());
 
         return $this->response(['tradeInDeal' => $tradeInDeal]);
     }
@@ -83,9 +83,9 @@ class TradeController extends ApiController
             );
         }
 
-        $client = $this->clientRepository->findOneBy(['userAccount' => $this->security->getUser()]);
+        $customer = $this->customerRepository->findOneBy(['userAccount' => $this->security->getUser()]);
 
-        $tradeInDeal = $this->tradeService->buyCarWithASurcharge($surchargeAmount, $carModelId, $client->getId());
+        $tradeInDeal = $this->tradeService->buyCarWithASurcharge($surchargeAmount, $carModelId, $customer->getId());
 
         return $this->response(['tradeInDeal' => $tradeInDeal]);
     }

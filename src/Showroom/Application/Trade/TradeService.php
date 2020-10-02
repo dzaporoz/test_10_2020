@@ -6,14 +6,14 @@ namespace App\Showroom\Application\Trade;
 
 use App\Showroom\Application\Exception\CarModelIsNotAvailableForTradeInException;
 use App\Showroom\Application\Exception\CarModelNotFoundException;
-use App\Showroom\Application\Exception\ClientNotFoundException;
+use App\Showroom\Application\Exception\CustomerNotFoundException;
 use App\Showroom\Application\Exception\TradeInDealNotFoundException;
 use App\Showroom\Application\Exception\UnfinishedTradeInDealFoundException;
 use App\Showroom\Application\Exception\UnfinishedTradeInDealNotFoundException;
 use App\Showroom\Application\Exception\WrongSurchargeAmountException;
 use App\Showroom\Model\CarModel\CarModelRepositoryInterface;
-use App\Showroom\Model\Client\Client;
-use App\Showroom\Model\Client\ClientRepositoryInterface;
+use App\Showroom\Model\Customer\Customer;
+use App\Showroom\Model\Customer\CustomerRepositoryInterface;
 use App\Showroom\Model\TradeInDeal\TradeInDeal;
 use App\Showroom\Model\TradeInDeal\TradeInDealRepositoryInterface;
 
@@ -23,17 +23,17 @@ class TradeService
 
     protected CarModelRepositoryInterface $carModelRepository;
 
-    protected ClientRepositoryInterface $clientRepository;
+    protected CustomerRepositoryInterface $customerRepository;
 
     public function __construct(
         TradeInDealRepositoryInterface $tradeInDealRepository,
         CarModelRepositoryInterface $carModelRepository,
-        ClientRepositoryInterface $clientRepository
+        CustomerRepositoryInterface $customerRepository
     )
     {
         $this->tradeInDealRepository = $tradeInDealRepository;
         $this->carModelRepository = $carModelRepository;
-        $this->clientRepository = $clientRepository;
+        $this->customerRepository = $customerRepository;
     }
 
     public function getCarBrands()
@@ -46,13 +46,13 @@ class TradeService
         return $this->carModelRepository->getBrandModels($brand);
     }
 
-    public function sellCarToShowroom(int $carModelId, int $clientId) : TradeInDeal
+    public function sellCarToShowroom(int $carModelId, int $customerId) : TradeInDeal
     {
         $carModel = $this->carModelRepository->find($carModelId);
-        $client = $this->clientRepository->find($clientId);
+        $customer = $this->customerRepository->find($customerId);
 
-        if (! $client) {
-            throw new ClientNotFoundException();
+        if (! $customer) {
+            throw new CustomerNotFoundException();
         } else if (! $carModel) {
             throw new CarModelNotFoundException();
         } else if (! $carModel->getPrice()->getTradeInPrice()) {
@@ -60,35 +60,35 @@ class TradeService
         }
 
         /** @var TradeInDeal $lastTradeInDeal */
-        $lastTradeInDeal = $client->getTradeInDeals()->last();
+        $lastTradeInDeal = $customer->getTradeInDeals()->last();
         if ($lastTradeInDeal && ! $lastTradeInDeal->getShowroomCarModel()) {
             throw new UnfinishedTradeInDealFoundException();
         }
 
         $tradeInDeal = new TradeInDeal();
-        $tradeInDeal->setClient($client);
-        $tradeInDeal->setClientCarModel($carModel);
-        $tradeInDeal->setClientCarPrice($carModel->getPrice()->getTradeInPrice());
+        $tradeInDeal->setCustomer($customer);
+        $tradeInDeal->setCustomerCarModel($carModel);
+        $tradeInDeal->setCustomerCarPrice($carModel->getPrice()->getTradeInPrice());
 
         $this->tradeInDealRepository->store($tradeInDeal);
         
         return $tradeInDeal;
     }
 
-    public function buyCarWithASurcharge(float $surcharge_amount, int $desirableCarModelId, int $clientId) : TradeInDeal
+    public function buyCarWithASurcharge(float $surcharge_amount, int $desirableCarModelId, int $customerId) : TradeInDeal
     {
-        $client = $this->clientRepository->find($clientId);
+        $customer = $this->customerRepository->find($customerId);
         $desirableCarModel = $this->carModelRepository->find($desirableCarModelId);
 
-        if (! $client) {
-            throw new ClientNotFoundException();
+        if (! $customer) {
+            throw new CustomerNotFoundException();
         } else if (! $desirableCarModel) {
             throw new CarModelNotFoundException();
         }
 
-        $tradeInDeal = $this->getClientUnfinishedTradeInDeal($client);
+        $tradeInDeal = $this->getCustomerUnfinishedTradeInDeal($customer);
 
-        $givedCarModel = $tradeInDeal->getClientCarModel();
+        $givedCarModel = $tradeInDeal->getCustomerCarModel();
         $requiredSurchargeAmount = $desirableCarModel->getPrice()->getPrice() -
             $givedCarModel->getPrice()->getTradeInPrice();
 
@@ -105,9 +105,9 @@ class TradeService
         return $tradeInDeal;
     }
 
-    protected function getClientUnfinishedTradeInDeal(Client $client)
+    protected function getCustomerUnfinishedTradeInDeal(Customer $customer)
     {
-        $tradeInDeal = $client->getTradeInDeals()->last();
+        $tradeInDeal = $customer->getTradeInDeals()->last();
         if (! $tradeInDeal) {
             throw new TradeInDealNotFoundException();
         } else if ($tradeInDeal->getShowroomCarModel()) {

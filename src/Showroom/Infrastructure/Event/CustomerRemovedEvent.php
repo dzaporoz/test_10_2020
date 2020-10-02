@@ -4,21 +4,21 @@
 namespace App\Showroom\Infrastructure\Event;
 
 
-use App\Showroom\Model\Client\Client;
+use App\Showroom\Model\Customer\Customer;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class CustomerRemovedEvent extends Event
 {
-    private Client $client;
+    private Customer $customer;
 
-    public function __construct(Client $client)
+    public function __construct(Customer $customer)
     {
-        $this->client = $client;
+        $this->customer = $customer;
     }
 
-    public function getClient() : Client
+    public function getCustomer() : Customer
     {
-        return $this->client;
+        return $this->customer;
     }
 
 }
