@@ -1,7 +1,7 @@
 # Test task
 
 ## Subject
-Write a script that will request the exchange rates for yesterday from the API of the Central Bank of the Russian Federation and return them in JSON format
+Write a REST API that covers functionality of authomobile showroom with trade in program (Domain model)
 
 ## Requirements
 - composer
