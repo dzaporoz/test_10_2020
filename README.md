@@ -4,8 +4,7 @@
 Write a REST API that covers functionality of authomobile showroom with trade in program (Domain model)
 
 ## Requirements
-- composer
-- php >= 7.1 with ctype, iconv, json extensions
+- php >= 7.1 with ctype, iconv, json, sqlite extensions
 
 ## Installation
 Clone project, install dependencies, run migrations and database seeding
