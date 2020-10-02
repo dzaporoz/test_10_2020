@@ -16,6 +16,9 @@ class TradeInDealRepository extends BaseRepository implements TradeInDealReposit
 {
     protected string $entityClass = TradeInDeal::class;
 
+    /**
+     * @see TradeInDealRepositoryInterface
+     */
     public function store(TradeInDeal $tradeInDeal)
     {
         $this->getEntityManager()->persist($tradeInDeal);

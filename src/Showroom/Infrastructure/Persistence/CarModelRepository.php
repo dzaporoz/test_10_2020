@@ -15,6 +15,9 @@ class CarModelRepository extends BaseRepository implements CarModelRepositoryInt
 {
     protected string $entityClass = CarModel::class;
 
+    /**
+     * @see CarModelRepositoryInterface
+     */
     public function getBrands()
     {
         $brands_raw =  $this->createQueryBuilder('q')
@@ -26,6 +29,9 @@ class CarModelRepository extends BaseRepository implements CarModelRepositoryInt
         return array_column($brands_raw, 'manufacturer_name');
     }
 
+    /**
+     * @see CarModelRepositoryInterface
+     */
     public function getBrandModels(string $brand)
     {
         return $this->createQueryBuilder('q')

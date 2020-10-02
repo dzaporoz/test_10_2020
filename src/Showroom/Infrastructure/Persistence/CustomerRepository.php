@@ -16,12 +16,18 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
 {
     protected string $entityClass = Customer::class;
 
+    /**
+     * @see CustomerRepositoryInterface
+     */
     public function remove(Customer $customer)
     {
         $this->getEntityManager()->remove($customer);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @see CustomerRepositoryInterface
+     */
     public function store(Customer $customer)
     {
         $this->getEntityManager()->persist($customer);

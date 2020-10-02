@@ -63,6 +63,9 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @see UserInterface
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -70,9 +73,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getPassword(): string
     {
         return (string) $this->password;
